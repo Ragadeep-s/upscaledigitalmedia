@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>One Page Website</title>
+  <meta name="description" content="A simple one-page website with sidebar navigation." />
+  <style>
+    :root {
+      --bg: #f7f6f2;
+      --surface: #ffffff;
+      --surface-2: #f0ece6;
+      --text: #1f1f1f;
+      --muted: #686868;
+      --accent: #0e6b68;
+      --border: rgba(31, 31, 31, 0.12);
+      --shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+      --radius: 18px;
+      --sidebar-width: 280px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .menu-toggle {
+      position: fixed;
+      top: 18px;
+      left: 18px;
+      z-index: 1000;
+      width: 52px;
+      height: 52px;
+      border: 0;
+      border-radius: 14px;
+      background: var(--accent);
+      color: #fff;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      display: grid;
+      place-items: center;
+    }
+
+    .menu-toggle span,
+    .menu-toggle span::before,
+    .menu-toggle span::after {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: currentColor;
+      border-radius: 999px;
+      content: "";
+      position: relative;
+    }
+
+    .menu-toggle span::before { top: -7px; position: absolute; }
+    .menu-toggle span::after { top: 7px; position: absolute; }
+
+    .sidebar {
+      position: fixed;
+      inset: 0 auto 0 0;
+      width: min(var(--sidebar-width), 82vw);
+      padding: 88px 24px 24px;
+      background: rgba(255,255,255,0.96);
+      border-right: 1px solid var(--border);
+      transform: translateX(-100%);
+      transition: transform 220ms ease;
+      z-index: 999;
+      box-shadow: var(--shadow);
+    }
+
+    .sidebar.open { transform: translateX(0); }
+
+    .sidebar h2 {
+      margin: 0 0 18px;
+      font-size: 1.3rem;
+    }
+
+    .sidebar nav {
+      display: grid;
+      gap: 10px;
+    }
+
+    .sidebar a {
+      text-decoration: none;
+      color: var(--text);
+      background: var(--surface-2);
+      padding: 12px 14px;
+      border-radius: 12px;
+      font-weight: 600;
+    }
+
+    .sidebar-close {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      border: 0;
+      background: var(--surface-2);
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 1.2rem;
+    }
+
+    .backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.24);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 220ms ease;
+      z-index: 998;
+    }
+
+    .backdrop.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    main {
+      width: min(100%, 1100px);
+      margin: 0 auto;
+      padding: 96px 20px 56px;
+    }
+
+    section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px 24px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow);
+      scroll-margin-top: 84px;
+    }
+
+    .eyebrow {
+      color: var(--accent);
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      line-height: 1.05;
+    }
+
+    h2 {
+      margin-top: 0;
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+    }
+
+    p {
+      margin: 0 0 12px;
+      max-width: 70ch;
+      color: var(--muted);
+    }
+
+    .placeholder {
+      margin-top: 18px;
+      padding: 18px;
+      border-radius: 14px;
+      background: #f6fbfa;
+      border: 1px dashed rgba(14,107,104,0.35);
+      color: var(--text);
+    }
+
+    .cta-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 12px 18px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 700;
+      border: 1px solid var(--border);
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text);
+    }
+
+    .contact-grid {
+      display: grid;
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .contact-card {
+      padding: 16px;
+      border-radius: 14px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+    }
+
+    footer {
+      text-align: center;
+      padding: 10px 20px 36px;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+
+  <button class="menu-toggle" id="menuToggle" aria-label="Open menu">
+    <span></span>
+  </button>
+
+  <aside class="sidebar" id="sidebar">
+    <button class="sidebar-close" id="closeMenu" aria-label="Close menu">✕</button>
+    <h2>Menu</h2>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#services">Our Services</a>
+      <a href="#about">About Us</a>
+      <a href="#contact">Contact Us</a>
+    </nav>
+  </aside>
+
+  <div class="backdrop" id="backdrop"></div>
+
+  <main>
+    <section id="home">
+      <div class="eyebrow">Home</div>
+      <h1>Your one page website starts here.</h1>
+      <p>This is a default placeholder line for the Home section. Replace this text with your real homepage content.</p>
+      <div class="placeholder">Default content placeholder: Add your main intro here.</div>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#services">View Services</a>
+        <a class="btn btn-secondary" href="#contact">Contact Us</a>
+      </div>
+    </section>
+
+    <section id="services">
+      <div class="eyebrow">Our Services</div>
+      <h2>Services section placeholder</h2>
+      <p>This is a default placeholder line for the Our Services section. Replace this with your service details.</p>
+      <div class="placeholder">Default content placeholder: Add your services here.</div>
+    </section>
+
+    <section id="about">
+      <div class="eyebrow">About Us</div>
+      <h2>About section placeholder</h2>
+      <p>This is a default placeholder line for the About Us section. Replace this with your company story.</p>
+      <div class="placeholder">Default content placeholder: Add your about content here.</div>
+    </section>
+
+    <section id="contact">
+      <div class="eyebrow">Contact Us</div>
+      <h2>Contact section placeholder</h2>
+      <p>This is a default placeholder line for the Contact Us section. Replace this with your contact details.</p>
+      <div class="contact-grid">
+        <div class="contact-card">Default content placeholder: Add phone number here.</div>
+        <div class="contact-card">Default content placeholder: Add email address here.</div>
+        <div class="contact-card">Default content placeholder: Add address or social links here.</div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    © 2026 One Page Website Template
+  </footer>
+
+  <script>
+    const menuToggle = document.getElementById('menuToggle');
+    const sidebar = document.getElementById('sidebar');
+    const closeMenu = document.getElementById('closeMenu');
+    const backdrop = document.getElementById('backdrop');
+    const navLinks = sidebar.querySelectorAll('a');
+
+    function openMenu() {
+      sidebar.classList.add('open');
+      backdrop.classList.add('show');
+    }
+
+    function hideMenu() {
+      sidebar.classList.remove('open');
+      backdrop.classList.remove('show');
+    }
+
+    menuToggle.addEventListener('click', openMenu);
+    closeMenu.addEventListener('click', hideMenu);
+    backdrop.addEventListener('click', hideMenu);
+    navLinks.forEach(link => link.addEventListener('click', hideMenu));
+  </script>
+</body>
+</html>
