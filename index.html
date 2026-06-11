@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Upscale Digital Media</title>
+  <meta
+    name="description"
+    content="Upscale Digital Media helps businesses build digital presence, brand visibility, and long-term growth through content creation, social media management, advertising, business strategy, and digital optimization."
+  />
+  <style>
+    :root {
+      --bg: #f7f7fb;
+      --text: #1b1f2a;
+      --muted: #5d6577;
+      --white: #ffffff;
+      --border: rgba(27, 31, 42, 0.1);
+      --shadow: 0 18px 48px rgba(31, 38, 62, 0.12);
+      --radius: 24px;
+      --teal: #0d9488;
+      --blue: #3b82f6;
+      --purple: #8b5cf6;
+      --pink: #ec4899;
+      --gold: #f59e0b;
+      --green: #10b981;
+      --red: #ef4444;
+      --dark: #111827;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(59,130,246,0.08), transparent 28%),
+        radial-gradient(circle at top right, rgba(236,72,153,0.08), transparent 22%),
+        linear-gradient(180deg, #f8fbff 0%, #f8f7ff 100%);
+      line-height: 1.65;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .menu-toggle {
+      position: fixed;
+      top: 18px;
+      left: 18px;
+      z-index: 1001;
+      width: 54px;
+      height: 54px;
+      border: 0;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--teal), var(--blue));
+      color: #fff;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      display: grid;
+      place-items: center;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .menu-toggle:hover {
+      transform: translateY(-2px) scale(1.02);
+    }
+
+    .menu-toggle span,
+    .menu-toggle span::before,
+    .menu-toggle span::after {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: currentColor;
+      border-radius: 999px;
+      content: "";
+      position: relative;
+    }
+
+    .menu-toggle span::before {
+      position: absolute;
+      top: -7px;
+    }
+
+    .menu-toggle span::after {
+      position: absolute;
+      top: 7px;
+    }
+
+    .sidebar {
+      position: fixed;
+      inset: 0 auto 0 0;
+      width: min(310px, 85vw);
+      background: rgba(255,255,255,0.9);
+      backdrop-filter: blur(18px);
+      border-right: 1px solid rgba(255,255,255,0.5);
+      padding: 92px 22px 24px;
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+      z-index: 1000;
+      box-shadow: var(--shadow);
+    }
+
+    .sidebar.open {
+      transform: translateX(0);
+    }
+
+    .sidebar-close {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      width: 42px;
+      height: 42px;
+      border: 0;
+      border-radius: 14px;
+      background: rgba(0,0,0,0.05);
+      cursor: pointer;
+      font-size: 1.15rem;
+    }
+
+    .sidebar h2 {
+      margin: 0 0 18px;
+      font-size: 1.2rem;
+    }
+
+    .sidebar nav {
+      display: grid;
+      gap: 10px;
+    }
+
+    .sidebar nav a {
+      padding: 13px 14px;
+      border-radius: 14px;
+      font-weight: 700;
+      color: var(--text);
+      background: rgba(255,255,255,0.55);
+      border: 1px solid rgba(255,255,255,0.35);
+      transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .sidebar nav a:hover {
+      transform: translateX(6px);
+      background: rgba(13,148,136,0.12);
+    }
+
+    .sidebar nav a.active {
+      transform: translateX(8px);
+      color: #fff;
+      background: linear-gradient(135deg, var(--teal), var(--blue));
+      box-shadow: 0 12px 28px rgba(13,148,136,0.25);
+    }
+
+    .backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(17,24,39,0.28);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.28s ease;
+      z-index: 999;
+    }
+
+    .backdrop.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .wrapper {
+      width: min(calc(100% - 32px), 1180px);
+      margin: 0 auto;
+      padding: 92px 0 48px;
+    }
+
+    section {
+      position: relative;
+      border-radius: var(--radius);
+      padding: 34px 22px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255,255,255,0.55);
+      overflow: hidden;
+      scroll-margin-top: 88px;
+      opacity: 0;
+      transform: translateY(34px) scale(0.985);
+      transition: opacity 0.75s ease, transform 0.75s ease;
+    }
+
+    section.visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    section::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.35), rgba(255,255,255,0.08));
+      pointer-events: none;
+    }
+
+    .content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-section {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding-top: 90px;
+      padding-bottom: 60px;
+      transform-origin: center top;
+      transition: opacity 0.2s linear, transform 0.2s linear;
+    }
+    #home {
+      background: linear-gradient(135deg, #fff4d8 0%, #ffe1d5 48%, #ffd6ec 100%);
+    }
+
+    #features {
+      background: linear-gradient(135deg, #ddf4ff 0%, #dcfce7 100%);
+    }
+
+    #why-us {
+      background: linear-gradient(135deg, #efe2ff 0%, #e0e7ff 100%);
+    }
+
+    #services {
+      background: linear-gradient(135deg, #dcfff3 0%, #d8f3ff 100%);
+    }
+
+    #work {
+      background: linear-gradient(135deg, #fff1f2 0%, #ffe4e6 45%, #fee2e2 100%);
+    }
+
+    #industries {
+      background: linear-gradient(135deg, #fff8cc 0%, #ffefb5 100%);
+    }
+
+    #faq {
+      background: linear-gradient(135deg, #e0ecff 0%, #e9ddff 100%);
+    }
+
+    #contact {
+      background: linear-gradient(135deg, #0f766e 0%, #2563eb 50%, #7c3aed 100%);
+      color: #fff;
+    }
+
+    #contact p,
+    #contact .mini {
+      color: rgba(255,255,255,0.92);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 700;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.5);
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      margin: 0 0 16px;
+      font-size: clamp(2.4rem, 6vw, 5rem);
+      line-height: 1.02;
+      max-width: 12ch;
+    }
+
+    h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.65rem, 3vw, 2.5rem);
+      line-height: 1.12;
+    }
+
+    h3 {
+      margin: 0 0 10px;
+      font-size: 1.1rem;
+    }
+
+    p {
+      margin: 0 0 14px;
+      color: var(--muted);
+      max-width: 74ch;
+    }
+
+    .lead {
+      color: var(--text);
+      font-size: 1.05rem;
+      max-width: 70ch;
+    }
+
+    .tagline {
+      margin-top: 16px;
+      font-weight: 700;
+      color: var(--dark);
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 13px 18px;
+      border-radius: 14px;
+      font-weight: 700;
+      border: 1px solid rgba(255,255,255,0.28);
+      transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--teal), var(--blue));
+      color: #fff;
+      box-shadow: 0 12px 26px rgba(59,130,246,0.22);
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.62);
+      color: var(--text);
+    }
+
+    .grid-3,
+    .grid-2 {
+      display: grid;
+      gap: 16px;
+      margin-top: 22px;
+    }
+
+    .card,
+    .faq-item,
+    .stat-card {
+      background: rgba(255,255,255,0.56);
+      border: 1px solid rgba(255,255,255,0.38);
+      border-radius: 18px;
+      padding: 18px;
+      backdrop-filter: blur(8px);
+      transition: transform 0.28s ease, box-shadow 0.28s ease;
+    }
+
+    .card:hover,
+    .faq-item:hover,
+    .stat-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 34px rgba(0,0,0,0.08);
+    }
+
+    .feature-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      font-size: 1.2rem;
+      margin-bottom: 12px;
+      background: rgba(255,255,255,0.7);
+    }
+
+    .list {
+      display: grid;
+      gap: 12px;
+      margin: 18px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .list li {
+      background: rgba(255,255,255,0.5);
+      border: 1px solid rgba(255,255,255,0.38);
+      border-radius: 16px;
+      padding: 14px 16px;
+      font-weight: 600;
+    }
+
+    .bullet-columns {
+      display: grid;
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .bullet-columns ul {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+    }
+
+    .bullet-columns li {
+      margin-bottom: 8px;
+    }
+
+    .hero-grid,
+    .work-grid {
+      display: grid;
+      gap: 16px;
+      margin-top: 22px;
+    }
+
+    .mini {
+      font-size: 0.97rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 8px 16px 36px;
+      color: var(--muted);
+    }
+
+    @media (min-width: 760px) {
+      .grid-3 {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .grid-2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .bullet-columns {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .hero-grid {
+        grid-template-columns: 1.35fr 0.9fr;
+        align-items: end;
+      }
+
+      .work-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      section {
+        padding: 42px 34px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <button class="menu-toggle" id="menuToggle" aria-label="Open menu">
+    <span></span>
+  </button>
+
+  <aside class="sidebar" id="sidebar" aria-hidden="true">
+    <button class="sidebar-close" id="closeMenu" aria-label="Close menu">✕</button>
+    <h2>Menu</h2>
+    <nav>
+      <a href="#home" class="active">Home</a>
+      <a href="#features">Special Features</a>
+      <a href="#why-us">Why Choose Us</a>
+      <a href="#services">What We Do</a>
+      <a href="#work">Our Work</a>
+      <a href="#industries">Industries</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </aside>
+
+  <div class="backdrop" id="backdrop"></div>
+
+  <main class="wrapper">
+    <section id="home" class="hero-section">
+      <div class="content">
+        <div class="eyebrow">Upscale Digital Media</div>
+        <div class="hero-grid">
+          <div>
+            <h1>Grow Your Brand. Build Your Presence.</h1>
+            <p class="lead">
+              At Upscale Digital Media, we help businesses establish a powerful digital presence through strategic content creation, brand positioning, audience engagement, and growth-focused digital marketing support.
+            </p>
+            <p>
+              We focus on enhancing long-term growth through consistent content, creative storytelling, platform optimization, and smart digital strategies that keep your brand visible in the right places.
+            </p>
+            <p>
+              Whether you're a startup, local business, professional service, or established brand, we help you stay visible where your customers spend their time and strengthen the foundation of your online presence.
+            </p>
+            <div class="button-row">
+              <a class="btn btn-primary" href="#contact">Get Started Today</a>
+              <a class="btn btn-secondary" href="#services">Explore Services</a>
+            </div>
+            <p class="tagline">Building your digital presence one post at a time.</p>
+          </div>
+
+          <div class="grid-2">
+            <div class="stat-card">
+              <h3>Digital Presence</h3>
+              <p>Build stronger brand visibility with content that keeps your business active and relevant.</p>
+            </div>
+            <div class="stat-card">
+              <h3>Content Momentum</h3>
+              <p>Consistent reels, creatives, and carousels designed for engagement and growth.</p>
+            </div>
+            <div class="stat-card">
+              <h3>Brand Positioning</h3>
+              <p>Create a professional online image that improves trust and brand recall.</p>
+            </div>
+            <div class="stat-card">
+              <h3>Growth Support</h3>
+              <p>Enhance reach, visibility, and audience interaction with strategic optimization.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="features">
+      <div class="content">
+        <div class="eyebrow">Our Special Features</div>
+        <h2>Creative support designed for visibility and consistent growth.</h2>
+        <div class="grid-3">
+          <article class="card">
+            <div class="feature-icon">🎨</div>
+            <h3>Creative Content Packages</h3>
+            <p>Get 5 to 15 professionally designed content pieces every month, including reels, carousels, and engaging social media creatives.</p>
+          </article>
+          <article class="card">
+            <div class="feature-icon">📱</div>
+            <h3>Multi-Platform Management</h3>
+            <p>We optimize and manage your Instagram, Facebook, LinkedIn, and X (Twitter) presence with a consistent brand voice.</p>
+          </article>
+          <article class="card">
+            <div class="feature-icon">🌟</div>
+            <h3>Consistent Brand Visibility</h3>
+            <p>Regular posting helps keep your business active, visible, and memorable in front of potential customers.</p>
+          </article>
+          <article class="card">
+            <div class="feature-icon">🧠</div>
+            <h3>Customized Content Strategy</h3>
+            <p>Every business is different, so we create content that matches your industry, audience, and business goals.</p>
+          </article>
+          <article class="card">
+            <div class="feature-icon">📈</div>
+            <h3>Audience Growth Focus</h3>
+            <p>Our strategies are designed to increase engagement, reach, profile visits, and follower growth organically.</p>
+          </article>
+          <article class="card">
+            <div class="feature-icon">🤝</div>
+            <h3>Dedicated Support</h3>
+            <p>We work closely with clients to understand their business, communicate their message clearly, and keep content aligned with growth goals.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="why-us">
+      <div class="content">
+        <div class="eyebrow">Why Choose Us</div>
+        <h2>Why businesses choose Upscale Digital Media.</h2>
+        <ul class="list">
+          <li>✓ Professional Reel &amp; Carousel Creation</li>
+          <li>✓ Affordable Monthly Packages</li>
+          <li>✓ Consistent Social Media Activity</li>
+          <li>✓ Industry-Specific Content Strategy</li>
+          <li>✓ Organic Audience Growth Focus</li>
+          <li>✓ Improved Brand Awareness</li>
+          <li>✓ Professional Brand Presentation</li>
+          <li>✓ Transparent Reporting</li>
+          <li>✓ Long-Term Growth Approach</li>
+        </ul>
+        <p>
+          We understand that trust, reach, and leads take time. Our goal is to build a strong online foundation that supports steady visibility, enhances digital growth, and helps businesses grow sustainably.
+        </p>
+      </div>
+    </section>
+
+    <section id="services">
+      <div class="content">
+        <div class="eyebrow">What We Do</div>
+        <h2>More than social handling, built around complete business growth support.</h2>
+        <p>
+          Along with social media management, we also support businesses with advertising, Google Business Profile optimization, business strategy inputs, competitive analysis, content direction, and practical digital tips that strengthen visibility and growth.
+        </p>
+
+        <div class="grid-2">
+          <article class="card">
+            <h3>Social Media Management</h3>
+            <div class="bullet-columns">
+              <ul>
+                <li>Instagram</li>
+                <li>Facebook</li>
+                <li>LinkedIn</li>
+                <li>X (Twitter)</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="card">
+            <h3>Content Creation</h3>
+            <div class="bullet-columns">
+              <ul>
+                <li>Reels</li>
+                <li>Carousel Posts</li>
+                <li>Promotional Creatives</li>
+                <li>Brand Awareness Content</li>
+                <li>Educational Content</li>
+                <li>Customer Engagement Posts</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="card">
+            <h3>Brand Positioning</h3>
+            <p>We help businesses build a professional and trustworthy online image that attracts attention, creates credibility, and improves brand recall.</p>
+          </article>
+
+          <article class="card">
+            <h3>Growth Optimization</h3>
+            <p>We optimize profiles, content strategy, posting schedules, hashtags, and audience engagement to maximize reach, digital presence, and visibility.</p>
+          </article>
+
+          <article class="card">
+            <h3>Advertising Support</h3>
+            <p>We help brands plan and support ad campaigns that improve reach, attention, and conversion opportunities across digital platforms.</p>
+          </article>
+
+          <article class="card">
+            <h3>Business Support Services</h3>
+            <p>We also contribute with Google Business Profile support, competitive analysis, business strategies, and practical ideas to improve digital performance.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="work">
+      <div class="content">
+        <div class="eyebrow">Our Work</div>
+        <h2>Helping brands stay visible.</h2>
+        <p>
+          Our work focuses on creating engaging content that helps businesses increase profile visits, improve social media engagement, grow followers organically, build stronger brand awareness, and stay active across digital platforms.
+        </p>
+
+        <div class="work-grid">
+          <article class="card">
+            <h3>Reels &amp; Short Videos</h3>
+            <p>Showcase high-performing short-form video content that improves reach and engagement.</p>
+          </article>
+          <article class="card">
+            <h3>Carousel Designs</h3>
+            <p>Present educational, promotional, and brand storytelling carousels in a polished visual format.</p>
+          </article>
+          <article class="card">
+            <h3>Growth Results</h3>
+            <p>Highlight profile growth, engagement improvements, campaign wins, and visibility milestones here.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="industries">
+      <div class="content">
+        <div class="eyebrow">Industries We Serve</div>
+        <h2>Digital growth support across multiple industries.</h2>
+        <div class="grid-3">
+          <article class="card"><h3>Restaurants &amp; Cafes</h3></article>
+          <article class="card"><h3>Real Estate</h3></article>
+          <article class="card"><h3>Healthcare &amp; Clinics</h3></article>
+          <article class="card"><h3>Educational Institutions</h3></article>
+          <article class="card"><h3>Fitness &amp; Wellness</h3></article>
+          <article class="card"><h3>Beauty &amp; Salons</h3></article>
+          <article class="card"><h3>Fashion &amp; Lifestyle</h3></article>
+          <article class="card"><h3>E-Commerce Stores</h3></article>
+          <article class="card"><h3>Professional Services</h3></article>
+          <article class="card"><h3>Startups &amp; Entrepreneurs</h3></article>
+          <article class="card"><h3>Local Businesses</h3></article>
+          <article class="card"><h3>Media &amp; Entertainment</h3></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq">
+      <div class="content">
+        <div class="eyebrow">Frequently Asked Questions</div>
+        <h2>Answers that set the right expectations.</h2>
+        <div class="grid-2">
+          <article class="faq-item">
+            <h3>Do you guarantee leads?</h3>
+            <p>No. Lead generation depends on multiple factors including industry, competition, offer quality, pricing, and audience behavior. Our focus is to strengthen your digital presence and increase visibility.</p>
+          </article>
+          <article class="faq-item">
+            <h3>How many posts do I receive monthly?</h3>
+            <p>Depending on your package, you will receive between 5 and 15 content pieces, including reels and carousel posts.</p>
+          </article>
+          <article class="faq-item">
+            <h3>Which platforms do you manage?</h3>
+            <p>Instagram, Facebook, LinkedIn, and X (Twitter).</p>
+          </article>
+          <article class="faq-item">
+            <h3>How long does it take to see results?</h3>
+            <p>Social media growth is a long-term process. Many businesses begin seeing improvements in reach, engagement, and visibility after a few months of consistent activity.</p>
+          </article>
+          <article class="faq-item">
+            <h3>Can I approve content before posting?</h3>
+            <p>Yes. We share content for review and approval before publishing.</p>
+          </article>
+          <article class="faq-item">
+            <h3>Do you create content for all industries?</h3>
+            <p>Yes. We customize content according to your business type and target audience.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+       <section id="contact">
+      <div class="content">
+        <div class="eyebrow">Final Call To Action</div>
+        <h2>Ready to build your digital presence?</h2>
+        <p>
+          Let’s create content that keeps your brand visible, professional, and engaging while enhancing your growth across digital platforms.
+        </p>
+        <p class="mini">Upscale Digital Media</p>
+        <p class="mini">Create. Engage. Grow.</p>
+
+        <div class="button-row">
+          <a class="btn btn-primary" href="mailto:hello@upscaledigitalmedia.com">Contact Us</a>
+          <a class="btn btn-secondary" href="#home">Back to Top</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    © 2026 Upscale Digital Media. All rights reserved.
+  </footer>
+
+  <script>
+    const menuToggle = document.getElementById("menuToggle");
+    const sidebar = document.getElementById("sidebar");
+    const closeMenu = document.getElementById("closeMenu");
+    const backdrop = document.getElementById("backdrop");
+    const navLinks = document.querySelectorAll(".sidebar nav a");
+    const sections = document.querySelectorAll("main section");
+    const hero = document.getElementById("home");
+
+    function openMenu() {
+      sidebar.classList.add("open");
+      backdrop.classList.add("show");
+      sidebar.setAttribute("aria-hidden", "false");
+    }
+
+    function hideMenu() {
+      sidebar.classList.remove("open");
+      backdrop.classList.remove("show");
+      sidebar.setAttribute("aria-hidden", "true");
+    }
+
+    menuToggle.addEventListener("click", openMenu);
+    closeMenu.addEventListener("click", hideMenu);
+    backdrop.addEventListener("click", hideMenu);
+
+    navLinks.forEach(link => {
+      link.addEventListener("click", () => {
+        navLinks.forEach(item => item.classList.remove("active"));
+        link.classList.add("active");
+        hideMenu();
+      });
+    });
+
+    function setActiveLink() {
+      let currentId = "";
+      const scrollY = window.pageYOffset;
+
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop - 140;
+        const sectionHeight = section.offsetHeight;
+
+        if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+          currentId = section.getAttribute("id");
+        }
+      });
+
+      navLinks.forEach(link => {
+        link.classList.remove("active");
+        if (link.getAttribute("href") === `#${currentId}`) {
+          link.classList.add("active");
+        }
+      });
+    }
+
+    function animateHeroOnScroll() {
+      const scrolled = window.pageYOffset;
+      const fadePoint = window.innerHeight * 0.7;
+      const progress = Math.min(scrolled / fadePoint, 1);
+
+      hero.style.opacity = 1 - progress;
+      hero.style.transform = `translateY(-${progress * 90}px) scale(${1 - progress * 0.05})`;
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+        }
+      });
+    }, { threshold: 0.16 });
+
+    sections.forEach((section, index) => {
+      observer.observe(section);
+      if (section.id !== "home") {
+        setTimeout(() => section.classList.add("visible"), index * 120);
+      }
+    });
+
+    hero.classList.add("visible");
+    animateHeroOnScroll();
+
+    window.addEventListener("scroll", () => {
+      setActiveLink();
+      animateHeroOnScroll();
+    });
+
+    window.addEventListener("load", () => {
+      setActiveLink();
+      animateHeroOnScroll();
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") hideMenu();
+    });
+  </script>
+</body>
+</html>
