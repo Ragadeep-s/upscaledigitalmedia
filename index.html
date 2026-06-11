@@ -3,20 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>One Page Website</title>
-  <meta name="description" content="A simple one-page website with sidebar navigation." />
+  <title>Upscale Digital Media</title>
+  <meta name="description" content="Upscale Digital Media helps businesses build digital presence, strengthen brand visibility, and enhance growth through social media management, advertising, business strategy, and digital optimization." />
   <style>
     :root {
       --bg: #f7f6f2;
       --surface: #ffffff;
-      --surface-2: #f0ece6;
-      --text: #1f1f1f;
-      --muted: #686868;
-      --accent: #0e6b68;
-      --border: rgba(31, 31, 31, 0.12);
-      --shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
-      --radius: 18px;
-      --sidebar-width: 280px;
+      --surface-soft: #f1ede7;
+      --text: #1e1f1c;
+      --muted: #656764;
+      --accent: #0d6a67;
+      --accent-dark: #0a4b49;
+      --border: rgba(30, 31, 28, 0.12);
+      --shadow: 0 18px 48px rgba(0, 0, 0, 0.08);
+      --radius: 20px;
+      --max: 1180px;
     }
 
     * { box-sizing: border-box; }
@@ -24,10 +25,12 @@
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: var(--bg);
       color: var(--text);
-      line-height: 1.6;
+      background: linear-gradient(180deg, #f7f6f2 0%, #f3efe9 100%);
+      line-height: 1.65;
     }
+
+    a { color: inherit; }
 
     .menu-toggle {
       position: fixed;
@@ -57,28 +60,40 @@
       content: "";
       position: relative;
     }
-
-    .menu-toggle span::before { top: -7px; position: absolute; }
-    .menu-toggle span::after { top: 7px; position: absolute; }
+    .menu-toggle span::before { position: absolute; top: -7px; }
+    .menu-toggle span::after { position: absolute; top: 7px; }
 
     .sidebar {
       position: fixed;
       inset: 0 auto 0 0;
-      width: min(var(--sidebar-width), 82vw);
-      padding: 88px 24px 24px;
+      width: min(300px, 84vw);
       background: rgba(255,255,255,0.96);
+      backdrop-filter: blur(12px);
       border-right: 1px solid var(--border);
+      padding: 90px 24px 24px;
       transform: translateX(-100%);
       transition: transform 220ms ease;
       z-index: 999;
       box-shadow: var(--shadow);
     }
-
     .sidebar.open { transform: translateX(0); }
+
+    .sidebar-close {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      width: 42px;
+      height: 42px;
+      border: 0;
+      border-radius: 12px;
+      background: var(--surface-soft);
+      cursor: pointer;
+      font-size: 1.2rem;
+    }
 
     .sidebar h2 {
       margin: 0 0 18px;
-      font-size: 1.3rem;
+      font-size: 1.25rem;
     }
 
     .sidebar nav {
@@ -86,26 +101,12 @@
       gap: 10px;
     }
 
-    .sidebar a {
+    .sidebar nav a {
       text-decoration: none;
-      color: var(--text);
-      background: var(--surface-2);
       padding: 12px 14px;
+      background: var(--surface-soft);
       border-radius: 12px;
-      font-weight: 600;
-    }
-
-    .sidebar-close {
-      position: absolute;
-      top: 18px;
-      right: 18px;
-      border: 0;
-      background: var(--surface-2);
-      width: 42px;
-      height: 42px;
-      border-radius: 12px;
-      cursor: pointer;
-      font-size: 1.2rem;
+      font-weight: 700;
     }
 
     .backdrop {
@@ -117,73 +118,81 @@
       transition: opacity 220ms ease;
       z-index: 998;
     }
-
     .backdrop.show {
       opacity: 1;
       pointer-events: auto;
     }
 
-    main {
-      width: min(100%, 1100px);
+    .wrapper {
+      width: min(calc(100% - 32px), var(--max));
       margin: 0 auto;
-      padding: 96px 20px 56px;
+      padding: 92px 0 48px;
     }
 
     section {
-      background: var(--surface);
+      background: rgba(255,255,255,0.9);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 32px 24px;
-      margin-bottom: 24px;
       box-shadow: var(--shadow);
+      padding: 34px 22px;
+      margin-bottom: 20px;
       scroll-margin-top: 84px;
+    }
+
+    .hero {
+      padding-top: 42px;
+      padding-bottom: 42px;
     }
 
     .eyebrow {
       color: var(--accent);
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       font-weight: 700;
-      text-transform: uppercase;
       letter-spacing: 0.08em;
+      text-transform: uppercase;
       margin-bottom: 12px;
     }
 
     h1 {
-      margin: 0 0 12px;
-      font-size: clamp(2rem, 5vw, 3.5rem);
-      line-height: 1.05;
+      margin: 0 0 16px;
+      font-size: clamp(2.2rem, 6vw, 4.8rem);
+      line-height: 1.04;
+      max-width: 12ch;
     }
 
     h2 {
-      margin-top: 0;
-      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      margin: 0 0 14px;
+      font-size: clamp(1.55rem, 3vw, 2.35rem);
+      line-height: 1.12;
+    }
+
+    h3 {
+      margin: 0 0 10px;
+      font-size: 1.15rem;
     }
 
     p {
-      margin: 0 0 12px;
-      max-width: 70ch;
+      margin: 0 0 14px;
       color: var(--muted);
+      max-width: 72ch;
     }
 
-    .placeholder {
-      margin-top: 18px;
-      padding: 18px;
-      border-radius: 14px;
-      background: #f6fbfa;
-      border: 1px dashed rgba(14,107,104,0.35);
+    .lead {
+      font-size: 1.05rem;
       color: var(--text);
+      max-width: 70ch;
     }
 
-    .cta-row {
+    .button-row {
       display: flex;
-      gap: 12px;
       flex-wrap: wrap;
-      margin-top: 20px;
+      gap: 12px;
+      margin-top: 22px;
     }
 
     .btn {
       display: inline-block;
-      padding: 12px 18px;
+      padding: 13px 18px;
       border-radius: 12px;
       text-decoration: none;
       font-weight: 700;
@@ -201,28 +210,91 @@
       color: var(--text);
     }
 
-    .contact-grid {
+    .tagline {
+      margin-top: 16px;
+      color: var(--accent-dark);
+      font-weight: 700;
+    }
+
+    .grid-3,
+    .grid-2 {
       display: grid;
-      gap: 14px;
+      gap: 16px;
+      margin-top: 22px;
+    }
+
+    .card {
+      background: var(--surface-soft);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px;
+    }
+
+    .list {
+      display: grid;
+      gap: 10px;
+      margin: 18px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .list li {
+      background: var(--surface-soft);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 16px;
+    }
+
+    .bullet-columns {
+      display: grid;
+      gap: 12px;
       margin-top: 18px;
     }
 
-    .contact-card {
-      padding: 16px;
-      border-radius: 14px;
-      background: var(--surface-2);
+    .bullet-columns ul {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+    }
+
+    .bullet-columns li { margin-bottom: 8px; }
+
+    .faq-item {
+      background: var(--surface-soft);
       border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px;
+    }
+
+    .cta-box {
+      background: linear-gradient(135deg, #0d6a67, #0a4b49);
+      color: #fff;
+    }
+
+    .cta-box p,
+    .cta-box .mini {
+      color: rgba(255,255,255,0.9);
+    }
+
+    .mini {
+      font-size: 0.96rem;
     }
 
     footer {
       text-align: center;
-      padding: 10px 20px 36px;
+      padding: 8px 16px 36px;
       color: var(--muted);
+    }
+
+    @media (min-width: 760px) {
+      .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .bullet-columns { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      section { padding: 42px 34px; }
     }
   </style>
 </head>
 <body>
-
   <button class="menu-toggle" id="menuToggle" aria-label="Open menu">
     <span></span>
   </button>
@@ -232,54 +304,202 @@
     <h2>Menu</h2>
     <nav>
       <a href="#home">Home</a>
-      <a href="#services">Our Services</a>
-      <a href="#about">About Us</a>
-      <a href="#contact">Contact Us</a>
+      <a href="#features">Special Features</a>
+      <a href="#why-us">Why Choose Us</a>
+      <a href="#services">What We Do</a>
+      <a href="#work">Our Work</a>
+      <a href="#industries">Industries</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contact">Contact</a>
     </nav>
   </aside>
 
   <div class="backdrop" id="backdrop"></div>
 
-  <main>
-    <section id="home">
-      <div class="eyebrow">Home</div>
-      <h1>Your one page website starts here.</h1>
-      <p>This is a default placeholder line for the Home section. Replace this text with your real homepage content.</p>
-      <div class="placeholder">Default content placeholder: Add your main intro here.</div>
-      <div class="cta-row">
-        <a class="btn btn-primary" href="#services">View Services</a>
-        <a class="btn btn-secondary" href="#contact">Contact Us</a>
+  <main class="wrapper">
+    <section class="hero" id="home">
+      <div class="eyebrow">Upscale Digital Media</div>
+      <h1>Grow Your Brand. Build Your Presence.</h1>
+      <p class="lead">At Upscale Digital Media, we help businesses establish a powerful digital presence through strategic content creation, brand positioning, audience engagement, and growth-focused digital marketing support.</p>
+      <p>We focus on enhancing long-term growth through consistent content, creative storytelling, platform optimization, and smart digital strategies that keep your brand visible in the right places.</p>
+      <p>Whether you're a startup, local business, professional service, or established brand, we help you stay visible where your customers spend their time and strengthen the foundation of your online presence.</p>
+      <div class="button-row">
+        <a class="btn btn-primary" href="#contact">Get Started Today</a>
+        <a class="btn btn-secondary" href="#services">Explore Services</a>
+      </div>
+      <p class="tagline">Building your digital presence one post at a time.</p>
+    </section>
+
+    <section id="features">
+      <div class="eyebrow">Our Special Features</div>
+      <h2>Creative support designed for visibility and consistent growth.</h2>
+      <div class="grid-3">
+        <article class="card">
+          <h3>Creative Content Packages</h3>
+          <p>Get 5 to 15 professionally designed content pieces every month, including reels, carousels, and engaging social media creatives.</p>
+        </article>
+        <article class="card">
+          <h3>Multi-Platform Management</h3>
+          <p>We optimize and manage your Instagram, Facebook, LinkedIn, and X (Twitter) presence with a consistent brand voice.</p>
+        </article>
+        <article class="card">
+          <h3>Consistent Brand Visibility</h3>
+          <p>Regular posting helps keep your business active, visible, and memorable in front of potential customers.</p>
+        </article>
+        <article class="card">
+          <h3>Customized Content Strategy</h3>
+          <p>Every business is different, so we create content that matches your industry, audience, and business goals.</p>
+        </article>
+        <article class="card">
+          <h3>Audience Growth Focus</h3>
+          <p>Our strategies are designed to increase engagement, reach, profile visits, and follower growth organically.</p>
+        </article>
+        <article class="card">
+          <h3>Dedicated Support</h3>
+          <p>We work closely with clients to understand their business, communicate their message clearly, and keep content aligned with growth goals.</p>
+        </article>
       </div>
     </section>
 
+    <section id="why-us">
+      <div class="eyebrow">Why Choose Us</div>
+      <h2>Why businesses choose Upscale Digital Media.</h2>
+      <ul class="list">
+        <li>Professional Reel &amp; Carousel Creation</li>
+        <li>Affordable Monthly Packages</li>
+        <li>Consistent Social Media Activity</li>
+        <li>Industry-Specific Content Strategy</li>
+        <li>Organic Audience Growth Focus</li>
+        <li>Improved Brand Awareness</li>
+        <li>Professional Brand Presentation</li>
+        <li>Transparent Reporting</li>
+        <li>Long-Term Growth Approach</li>
+      </ul>
+      <p>We understand that trust, reach, and leads take time. Our goal is to build a strong online foundation that supports steady visibility, enhances digital growth, and helps businesses grow sustainably.</p>
+    </section>
+
     <section id="services">
-      <div class="eyebrow">Our Services</div>
-      <h2>Services section placeholder</h2>
-      <p>This is a default placeholder line for the Our Services section. Replace this with your service details.</p>
-      <div class="placeholder">Default content placeholder: Add your services here.</div>
+      <div class="eyebrow">What We Do</div>
+      <h2>More than social handling, built around complete business growth support.</h2>
+      <p>Along with social media management, we also support businesses with advertising, Google Business Profile optimization, business strategy inputs, competitive analysis, content direction, and practical digital tips that strengthen visibility and growth.</p>
+      <div class="grid-2">
+        <article class="card">
+          <h3>Social Media Management</h3>
+          <div class="bullet-columns">
+            <ul>
+              <li>Instagram</li>
+              <li>Facebook</li>
+              <li>LinkedIn</li>
+              <li>X (Twitter)</li>
+            </ul>
+          </div>
+        </article>
+        <article class="card">
+          <h3>Content Creation</h3>
+          <div class="bullet-columns">
+            <ul>
+              <li>Reels</li>
+              <li>Carousel Posts</li>
+              <li>Promotional Creatives</li>
+              <li>Brand Awareness Content</li>
+              <li>Educational Content</li>
+              <li>Customer Engagement Posts</li>
+            </ul>
+          </div>
+        </article>
+        <article class="card">
+          <h3>Brand Positioning</h3>
+          <p>We help businesses build a professional and trustworthy online image that attracts attention, creates credibility, and improves brand recall.</p>
+        </article>
+        <article class="card">
+          <h3>Growth Optimization</h3>
+          <p>We optimize profiles, content strategy, posting schedules, hashtags, and audience engagement to maximize reach, digital presence, and visibility.</p>
+        </article>
+        <article class="card">
+          <h3>Advertising Support</h3>
+          <p>We help brands plan and support ad campaigns that improve reach, attention, and conversion opportunities across digital platforms.</p>
+        </article>
+        <article class="card">
+          <h3>Business Support Services</h3>
+          <p>We also contribute with Google Business Profile support, competitive analysis, business strategies, and practical ideas to improve digital performance.</p>
+        </article>
+      </div>
     </section>
 
-    <section id="about">
-      <div class="eyebrow">About Us</div>
-      <h2>About section placeholder</h2>
-      <p>This is a default placeholder line for the About Us section. Replace this with your company story.</p>
-      <div class="placeholder">Default content placeholder: Add your about content here.</div>
+    <section id="work">
+      <div class="eyebrow">Our Work</div>
+      <h2>Helping brands stay visible.</h2>
+      <p>Our work focuses on creating engaging content that helps businesses increase profile visits, improve social media engagement, grow followers organically, build stronger brand awareness, and stay active across digital platforms.</p>
+      <div class="card">
+        <h3>Portfolio Placeholder</h3>
+        <p>Showcase your best reels, carousels, client pages, growth results, campaign creatives, and business visibility improvements in this section.</p>
+      </div>
     </section>
 
-    <section id="contact">
-      <div class="eyebrow">Contact Us</div>
-      <h2>Contact section placeholder</h2>
-      <p>This is a default placeholder line for the Contact Us section. Replace this with your contact details.</p>
-      <div class="contact-grid">
-        <div class="contact-card">Default content placeholder: Add phone number here.</div>
-        <div class="contact-card">Default content placeholder: Add email address here.</div>
-        <div class="contact-card">Default content placeholder: Add address or social links here.</div>
+    <section id="industries">
+      <div class="eyebrow">Industries We Serve</div>
+      <h2>Digital growth support across multiple industries.</h2>
+      <div class="grid-3">
+        <article class="card"><p>Restaurants &amp; Cafes</p></article>
+        <article class="card"><p>Real Estate</p></article>
+        <article class="card"><p>Healthcare &amp; Clinics</p></article>
+        <article class="card"><p>Educational Institutions</p></article>
+        <article class="card"><p>Fitness &amp; Wellness</p></article>
+        <article class="card"><p>Beauty &amp; Salons</p></article>
+        <article class="card"><p>Fashion &amp; Lifestyle</p></article>
+        <article class="card"><p>E-Commerce Stores</p></article>
+        <article class="card"><p>Professional Services</p></article>
+        <article class="card"><p>Startups &amp; Entrepreneurs</p></article>
+        <article class="card"><p>Local Businesses</p></article>
+        <article class="card"><p>Media &amp; Entertainment</p></article>
+      </div>
+    </section>
+
+    <section id="faq">
+      <div class="eyebrow">Frequently Asked Questions</div>
+      <h2>Answers that set the right expectations.</h2>
+      <div class="grid-2">
+        <article class="faq-item">
+          <h3>Do you guarantee leads?</h3>
+          <p>No. Lead generation depends on multiple factors including industry, competition, offer quality, pricing, and audience behavior. Our focus is to strengthen your social media presence and increase visibility.</p>
+        </article>
+        <article class="faq-item">
+          <h3>How many posts do I receive monthly?</h3>
+          <p>Depending on your package, you will receive between 5 and 15 content pieces, including reels and carousel posts.</p>
+        </article>
+        <article class="faq-item">
+          <h3>Which platforms do you manage?</h3>
+          <p>Instagram, Facebook, LinkedIn, and X (Twitter).</p>
+        </article>
+        <article class="faq-item">
+          <h3>How long does it take to see results?</h3>
+          <p>Social media growth is a long-term process. Most businesses start seeing improvements in reach, engagement, and visibility within a few months of consistent activity.</p>
+        </article>
+        <article class="faq-item">
+          <h3>Can I approve content before posting?</h3>
+          <p>Yes. We share content for review and approval before publishing.</p>
+        </article>
+        <article class="faq-item">
+          <h3>Do you create content for all industries?</h3>
+          <p>Yes. We customize content according to your business type and target audience.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="cta-box" id="contact">
+      <div class="eyebrow">Final Call To Action</div>
+      <h2>Ready to build your digital presence?</h2>
+      <p>Let’s create content that keeps your brand visible, professional, and engaging while enhancing your growth across digital platforms.</p>
+      <p class="mini">Upscale Digital Media</p>
+      <p class="mini">Create. Engage. Grow.</p>
+      <div class="button-row">
+        <a class="btn btn-primary" href="mailto:hello@upscaledigitalmedia.com">Contact Us</a>
       </div>
     </section>
   </main>
 
   <footer>
-    © 2026 One Page Website Template
+    © 2026 Upscale Digital Media. All rights reserved.
   </footer>
 
   <script>
