@@ -1,92 +1,200 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const nav = document.querySelector(".top-nav");
-  const hoverZone = document.querySelector(".top-hover-zone");
-  const transition = document.querySelector(".page-transition");
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  let hideTimer;
+  const initTopNav = () => {
+    const nav = document.querySelector(".top-nav");
+    const hoverZone = document.querySelector(".top-hover-zone");
+    if (!nav || !hoverZone) return;
 
-  const showNav = () => {
-    if (!nav) return;
-    clearTimeout(hideTimer);
-    nav.classList.add("show");
-  };
+    let hideTimer;
 
-  const hideNav = () => {
-    if (!nav) return;
-    hideTimer = setTimeout(() => {
-      nav.classList.remove("show");
-    }, 260);
-  };
+    const showNav = () => {
+      clearTimeout(hideTimer);
+      nav.classList.add("show");
+    };
 
-  if (hoverZone && nav) {
+    const hideNav = () => {
+      hideTimer = setTimeout(() => {
+        if (!nav.matches(":hover") && !hoverZone.matches(":hover")) {
+          nav.classList.remove("show");
+        }
+      }, 180);
+    };
+
     hoverZone.addEventListener("mouseenter", showNav);
     nav.addEventListener("mouseenter", showNav);
+    hoverZone.addEventListener("mouseleave", hideNav);
     nav.addEventListener("mouseleave", hideNav);
 
-    document.addEventListener("mousemove", (e) => {
-      if (e.clientY < 18) {
-        showNav();
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 20) {
+        nav.classList.add("show");
+        clearTimeout(hideTimer);
+        hideTimer = setTimeout(() => nav.classList.remove("show"), 900);
       }
     });
-  }
+  };
 
-  const current = location.pathname.split("/").pop() || "index.html";
+  const initActiveNav = () => {
+    const current = window.location.pathname.split("/").pop() || "index.html";
+    document.querySelectorAll(".top-nav a").forEach((link) => {
+      const href = link.getAttribute("href");
+      if (href === current) {
+        link.classList.add("active");
+      }
+    });
+  };
 
-  document.querySelectorAll(".top-nav a").forEach((a) => {
-    const href = a.getAttribute("href");
+  const initPageTransition = () => {
+    const transition = document.querySelector(".page-transition");
+    if (!transition) return;
 
-    if (href === current) {
-      a.classList.add("active");
+    document.querySelectorAll("a[href]").forEach((link) => {
+      const href = link.getAttribute("href");
+      if (
+        !href ||
+        href.startsWith("#") ||
+        href.startsWith("mailto:") ||
+        href.startsWith("tel:") ||
+        link.target === "_blank"
+      ) {
+        return;
+      }
+
+      link.addEventListener("click", (event) => {
+        const url = new URL(link.href, window.location.href);
+        if (url.origin !== window.location.origin) return;
+
+        event.preventDefault();
+        transition.classList.add("show");
+        setTimeout(() => {
+          window.location.href = url.href;
+        }, prefersReducedMotion ? 0 : 320);
+      });
+    });
+
+    window.addEventListener("pageshow", () => {
+      transition.classList.remove("show");
+    });
+  };
+
+  const initReveal = () => {
+    const items = document.querySelectorAll(".reveal");
+    if (!items.length) return;
+
+    if (prefersReducedMotion) {
+      items.forEach((item) => item.classList.add("visible"));
+      return;
     }
 
-    a.addEventListener("click", (e) => {
-      if (href && !href.startsWith("#")) {
-        e.preventDefault();
-        if (transition) transition.classList.add("show");
-        setTimeout(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry, index) => {
+          if (entry.isIntersecting) {
+            setTimeout(() => {
+              entry.target.classList.add("visible");
+            }, Math.min(index * 70, 280));
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.14, rootMargin: "0px 0px -40px 0px" }
+    );
+
+    items.forEach((item) => observer.observe(item));
+  };
+
+  const initCursor = () => {
+    const dot = document.querySelector(".cursor-dot");
+    const ring = document.querySelector(".cursor-ring");
+    if (!dot || !ring) return;
+    if (window.innerWidth <= 768 || prefersReducedMotion) return;
+
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+    let ringX = mouseX;
+    let ringY = mouseY;
+
+    document.addEventListener("mousemove", (event) => {
+      mouseX = event.clientX;
+      mouseY = event.clientY;
+      dot.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
+    });
+
+    const animateRing = () => {
+      ringX += (mouseX - ringX) * 0.14;
+      ringY += (mouseY - ringY) * 0.14;
+      ring.style.transform = `translate(${ringX}px, ${ringY}px)`;
+      requestAnimationFrame(animateRing);
+    };
+
+    animateRing();
+
+    const activate = () => ring.classList.add("active");
+    const deactivate = () => ring.classList.remove("active");
+
+    document.querySelectorAll("a, button, .service-card").forEach((el) => {
+      el.addEventListener("mouseenter", activate);
+      el.addEventListener("mouseleave", deactivate);
+    });
+  };
+
+  const initServiceCards = () => {
+    document.querySelectorAll(".service-card[data-link]").forEach((card) => {
+      const goToLink = () => {
+        const href = card.getAttribute("data-link");
+        if (!href) return;
+        const transition = document.querySelector(".page-transition");
+        if (transition && !prefersReducedMotion) {
+          transition.classList.add("show");
+          setTimeout(() => {
+            window.location.href = href;
+          }, 280);
+        } else {
           window.location.href = href;
-        }, 380);
-      }
+        }
+      };
+
+      card.setAttribute("tabindex", "0");
+      card.setAttribute("role", "link");
+
+      card.addEventListener("click", goToLink);
+      card.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          goToLink();
+        }
+      });
     });
-  });
+  };
 
-  window.addEventListener("pageshow", () => {
-    if (transition) transition.classList.remove("show");
-  });
+  const initFAQ = () => {
+    document.querySelectorAll(".faq-item").forEach((item) => {
+      const trigger = item.querySelector(".faq-question");
+      const answer = item.querySelector(".faq-answer");
+      if (!trigger || !answer) return;
 
-  const revealItems = document.querySelectorAll(".section-card, .card, .faq-item, .process-step, .gallery-item, .footer-card");
-  revealItems.forEach((item) => item.classList.add("reveal"));
+      trigger.addEventListener("click", () => {
+        const isOpen = item.classList.contains("open");
+        document.querySelectorAll(".faq-item.open").forEach((openItem) => {
+          openItem.classList.remove("open");
+          const openAnswer = openItem.querySelector(".faq-answer");
+          if (openAnswer) openAnswer.style.maxHeight = null;
+        });
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("visible");
-      }
+        if (!isOpen) {
+          item.classList.add("open");
+          answer.style.maxHeight = `${answer.scrollHeight}px`;
+        }
+      });
     });
-  }, { threshold: 0.15 });
+  };
 
-  revealItems.forEach((item) => observer.observe(item));
-
-  if (window.innerWidth > 768) {
-    const dot = document.createElement("div");
-    const ring = document.createElement("div");
-
-    dot.className = "cursor-dot";
-    ring.className = "cursor-ring";
-
-    document.body.appendChild(dot);
-    document.body.appendChild(ring);
-
-    window.addEventListener("mousemove", (e) => {
-      dot.style.left = `${e.clientX}px`;
-      dot.style.top = `${e.clientY}px`;
-      ring.style.left = `${e.clientX}px`;
-      ring.style.top = `${e.clientY}px`;
-    });
-
-    document.querySelectorAll("a, button, .btn, .card, .gallery-item").forEach((el) => {
-      el.addEventListener("mouseenter", () => ring.classList.add("active"));
-      el.addEventListener("mouseleave", () => ring.classList.remove("active"));
-    });
-  }
+  initTopNav();
+  initActiveNav();
+  initPageTransition();
+  initReveal();
+  initCursor();
+  initServiceCards();
+  initFAQ();
 });
