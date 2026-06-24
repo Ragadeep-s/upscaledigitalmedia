@@ -4,53 +4,275 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Services | Upscale Digital Media</title>
-  <link rel="stylesheet" href="./css/global.css" />
-  <link rel="stylesheet" href="./css/services.css" />
-  <script src="./js/global.js" defer></script>
-  <script src="./js/services.js" defer></script>
+  <meta
+    name="description"
+    content="Explore social media management, reel creation, carousel design, content strategy, profile optimization, brand awareness campaigns, and monthly content packages."
+  />
+  <link rel="stylesheet" href="css/global.css" />
 </head>
 <body>
-  <div class="top-hover-zone"></div>
   <div class="page-transition"></div>
-  <div class="bg-blobs">
-    <span class="blob blob-1"></span><span class="blob blob-2"></span><span class="blob blob-3"></span><span class="blob blob-4"></span>
-  </div>
-  <div class="floating-shapes">
-    <span class="shape shape-1"></span><span class="shape shape-2"></span><span class="shape shape-3"></span><span class="shape shape-4"></span><span class="shape shape-5"></span>
-  </div>
+  <div class="top-hover-zone"></div>
 
-  <nav class="top-nav">
+  <nav class="top-nav" aria-label="Main navigation">
     <a href="index.html">Home</a>
-    <a href="features.html">Features</a>
-    <a href="why-us.html">Why Us</a>
+    <a href="why-us.html">Why Choose Us</a>
     <a href="services.html">Services</a>
-    <a href="gallery.html">Gallery</a>
-    <a href="work.html">Work</a>
-    <a href="industries.html">Industries</a>
-    <a href="faq.html">FAQ</a>
+    <a href="work.html">Our Work</a>
     <a href="contact.html">Contact</a>
   </nav>
 
+  <div class="bg-blobs" aria-hidden="true">
+    <span class="blob blob-1"></span>
+    <span class="blob blob-2"></span>
+    <span class="blob blob-3"></span>
+    <span class="blob blob-4"></span>
+  </div>
+
+  <div class="floating-shapes" aria-hidden="true">
+    <span class="shape shape-1"></span>
+    <span class="shape shape-2"></span>
+    <span class="shape shape-3"></span>
+    <span class="shape shape-4"></span>
+    <span class="shape shape-5"></span>
+  </div>
+
+  <div class="cursor-dot" aria-hidden="true"></div>
+  <div class="cursor-ring" aria-hidden="true"></div>
+
   <main class="wrapper">
-    <section class="section-card page-hero page-services">
+    <section class="section-card reveal">
       <div class="content">
-        <div class="eyebrow">What We Do</div>
-        <h1>More than social handling, built for business growth.</h1>
+        <span class="eyebrow">Services</span>
+        <h1>Digital Solutions That Help Your Brand Stay Visible</h1>
         <p class="lead">
-  We structure our services around visibility, trust, and business growth so your brand stays active and relevant across digital channels.
-</p>
-        <div class="grid-2">
-          <div class="card"><h3>Social Media Management</h3><p>Instagram, Facebook, LinkedIn, and X (Twitter) management with planned content flow.</p></div>
-          <div class="card"><h3>Content Creation</h3><p>Reels, carousel posts, promotional creatives, educational content, and customer engagement posts.</p></div>
-          <div class="card"><h3>Brand Positioning</h3><p>We help businesses build a trustworthy and professional online image that improves brand recall.</p></div>
-          <div class="card"><h3>Growth Optimization</h3><p>We optimize profiles, content plans, posting schedules, hashtags, and visibility strategy.</p></div>
-          <div class="card"><h3>Advertising Support</h3><p>Campaign support to improve reach, attention, and conversion opportunities.</p></div>
-          <div class="card"><h3>Business Support Services</h3><p>Google Business Profile support, competitive analysis, business strategy inputs, and digital growth ideas.</p></div>
+          Our services are designed to help businesses build a more professional, consistent, and
+          engaging digital presence.
+        </p>
+        <p>
+          Hover over a service to see what it means, then click to open a dedicated page with a
+          brief explanation.
+        </p>
+      </div>
+    </section>
+
+    <section class="section-card reveal">
+      <div class="content">
+        <span class="eyebrow">Service overview</span>
+        <h2>Choose the service that matches your current goal</h2>
+        <p>
+          Each service below supports a different part of your digital presence, from content
+          creation to profile presentation and long-term visibility planning.
+        </p>
+
+        <div class="grid-3 service-grid">
+          <article class="service-card" data-link="social-media-management.html">
+            <div>
+              <div class="service-top">
+                <div>
+                  <h3>Social Media Management</h3>
+                  <p>
+                    Complete management of your social media platforms to maintain a professional
+                    and active online presence.
+                  </p>
+                </div>
+                <span class="service-icon">SM</span>
+              </div>
+              <p class="service-hover">
+                Helps your brand stay active, consistent, and professionally presented online.
+              </p>
+            </div>
+            <div class="service-link-row">Open Service Page →</div>
+          </article>
+
+          <article class="service-card" data-link="reel-creation.html">
+            <div>
+              <div class="service-top">
+                <div>
+                  <h3>Reel Creation</h3>
+                  <p>
+                    Short-form video content designed to increase engagement, reach, and audience
+                    interaction.
+                  </p>
+                </div>
+                <span class="service-icon">RC</span>
+              </div>
+              <p class="service-hover">
+                Useful for attention, visibility, and better short-form engagement performance.
+              </p>
+            </div>
+            <div class="service-link-row">Open Service Page →</div>
+          </article>
+
+          <article class="service-card" data-link="carousel-design.html">
+            <div>
+              <div class="service-top">
+                <div>
+                  <h3>Carousel Design</h3>
+                  <p>
+                    Informative and visually appealing carousel posts that educate, engage, and
+                    build authority.
+                  </p>
+                </div>
+                <span class="service-icon">CD</span>
+              </div>
+              <p class="service-hover">
+                Great for explaining ideas clearly while keeping your content visually branded.
+              </p>
+            </div>
+            <div class="service-link-row">Open Service Page →</div>
+          </article>
+
+          <article class="service-card" data-link="content-strategy.html">
+            <div>
+              <div class="service-top">
+                <div>
+                  <h3>Content Strategy</h3>
+                  <p>
+                    Customized content planning based on your business goals and target audience.
+                  </p>
+                </div>
+                <span class="service-icon">CS</span>
+              </div>
+              <p class="service-hover">
+                Gives your content direction so posting supports business outcomes, not randomness.
+              </p>
+            </div>
+            <div class="service-link-row">Open Service Page →</div>
+          </article>
+
+          <article class="service-card" data-link="profile-optimization.html">
+            <div>
+              <div class="service-top">
+                <div>
+                  <h3>Profile Optimization</h3>
+                  <p>
+                    Optimizing your social media profiles to create a professional first impression.
+                  </p>
+                </div>
+                <span class="service-icon">PO</span>
+              </div>
+              <p class="service-hover">
+                Improves the first impression visitors get when they discover your brand online.
+              </p>
+            </div>
+            <div class="service-link-row">Open Service Page →</div>
+          </article>
+
+          <article class="service-card" data-link="brand-awareness-campaigns.html">
+            <div>
+              <div class="service-top">
+                <div>
+                  <h3>Brand Awareness Campaigns</h3>
+                  <p>
+                    Content designed to increase visibility and strengthen your brand identity.
+                  </p>
+                </div>
+                <span class="service-icon">BA</span>
+              </div>
+              <p class="service-hover">
+                Supports broader recognition so more people remember your business over time.
+              </p>
+            </div>
+            <div class="service-link-row">Open Service Page →</div>
+          </article>
+
+          <article class="service-card" data-link="monthly-content-packages.html">
+            <div>
+              <div class="service-top">
+                <div>
+                  <h3>Monthly Content Packages</h3>
+                  <p>
+                    Flexible plans offering 5 to 15 content pieces per month based on your business
+                    requirements.
+                  </p>
+                </div>
+                <span class="service-icon">MP</span>
+              </div>
+              <p class="service-hover">
+                A flexible way to maintain consistency without overcomplicating your monthly workflow.
+              </p>
+            </div>
+            <div class="service-link-row">Open Service Page →</div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-card reveal">
+      <div class="content center-text">
+        <span class="eyebrow">Next step</span>
+        <h2>Need help choosing the right service?</h2>
+        <p>
+          We can help you choose the combination that best fits your business goals, audience,
+          platform needs, and content capacity.
+        </p>
+        <div class="button-row" style="justify-content:center;">
+          <a class="btn btn-primary" href="contact.html">Contact Us</a>
+          <a class="btn btn-secondary" href="work.html">See Our Work</a>
         </div>
       </div>
     </section>
   </main>
 
-  <footer>© 2026 Upscale Digital Media. All rights reserved.</footer>
+  <footer class="site-footer">
+    <div class="footer-wrap">
+      <div class="footer-grid footer-grid-3">
+        <div class="footer-card footer-links">
+          <h3>Quick Links</h3>
+          <a href="index.html">Home</a>
+          <a href="why-us.html">Why Choose Us</a>
+          <a href="services.html">Services</a>
+          <a href="work.html">Our Work</a>
+          <a href="contact.html">Contact</a>
+        </div>
+
+        <div class="footer-card footer-contact">
+          <h3>Contact</h3>
+
+          <a class="contact-link" href="mailto:upscaledigitalmedia17@gmail.com">
+            <span class="contact-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 6h16v12H4z"></path>
+                <path d="M4 7l8 6 8-6"></path>
+              </svg>
+            </span>
+            <span>upscaledigitalmedia17@gmail.com</span>
+          </a>
+
+          <a class="contact-link" href="tel:+919500266810">
+            <span class="contact-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.9.33 1.78.63 2.62a2 2 0 0 1-.45 2.11L8 9.91a16 16 0 0 0 6.09 6.09l1.46-1.29a2 2 0 0 1 2.11-.45c.84.3 1.72.51 2.62.63A2 2 0 0 1 22 16.92z"></path>
+              </svg>
+            </span>
+            <span>+91 95002 66810</span>
+          </a>
+
+          <p>Pondicherry, India</p>
+        </div>
+
+        <div class="footer-card footer-cta">
+          <h3>Let’s Build</h3>
+          <p class="footer-tagline">Upscale Digital Media</p>
+          <p class="footer-tagline-sub">Elevate • Enhance • Eminence</p>
+          <p>
+            Build a stronger digital presence with strategic content, sharper branding, and
+            consistent audience engagement.
+          </p>
+          <div class="button-row">
+            <a class="btn btn-primary" href="contact.html">Start Now</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2026 Upscale Digital Media</span>
+        <span>Elevate • Enhance • Eminence</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/global.js"></script>
 </body>
 </html>
